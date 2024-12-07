@@ -11,7 +11,9 @@ class ProductState with ChangeNotifier {
     String url = 'http://192.168.58.2:8000/api/products';
 
     try {
-      final response = await http.get(Uri.parse(url));
+      final response = await http.get(Uri.parse(url), headers: {
+        'Authorization': 'token bd05e22f6536f18338ac7205f9010d2688af901b'
+      });
       print(response.body);
       return true;
     } catch (e) {
