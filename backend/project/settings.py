@@ -7,7 +7,12 @@ SECRET_KEY = "django-insecure-jxz8+5vyk(5%*r(c9(v*ef0)-qs#$+5i#yg+0!!a$2an9&upyw
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "10.0.2.2",
+    "10.10.2.203",
+    "*"
+]
 
 
 INSTALLED_APPS = [
@@ -19,6 +24,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "rest_framework.authtoken",
+    "corsheaders",
     # "rest_framework_swagger",
     "shop",
 ]
@@ -26,6 +32,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
