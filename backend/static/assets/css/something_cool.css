@@ -1,0 +1,27 @@
+body {
+background-color: #f5f5f5;
+font-family: sans-serif;
+}
+.hero-image {
+height: 100vh;
+/* its the rull to add image from css file */
+background-image: url("/static/assets/img/something_cool.png");
+background-size: cover;
+background-position: top;
+}
+.heading {
+font-size: 3rem;
+text-align: center;
+margin-top: 50px;
+}
+.subheading {
+font-size: 1.5rem;
+text-align: center;
+margin-bottom: 50px;
+}
+.title-class{
+    margin: auto;
+    padding: auto;
+    text-align: center;
+    
+}
