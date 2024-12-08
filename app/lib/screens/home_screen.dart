@@ -1,3 +1,4 @@
+import 'package:ecom_app/widgets/single_product.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -19,6 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void didChangeDependencies() async {
     if (_init) {
       _isLoading = await Provider.of<ProductState>(context).getProducts();
+      setState(() {});
     }
     _init = false;
     super.didChangeDependencies();
@@ -26,17 +28,36 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (_isLoading) {
-      return const Center(
-        child: CircularProgressIndicator(),
+    final products = Provider.of<ProductState>(context).products;
+    if (!_isLoading) {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text('Home'),
+        ),
+        body: Center(
+          child: Text("Something is Wrong Try Again!"),
+        ),
       );
     } else {
       return Scaffold(
         appBar: AppBar(
           title: const Text('Home'),
         ),
-        body: const Center(
-          child: Text('Home Screen'),
+        body: GridView.builder(
+          itemCount: products.length,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+          ),
+          itemBuilder: (context, index) {
+            return SingleProduct(
+              id: products[index].id!,
+              title: products[index].title!,
+              imageUrl: products[index].image!,
+              isFavorite: products[index].isFavorite!,
+            );
+          },
         ),
       );
     }

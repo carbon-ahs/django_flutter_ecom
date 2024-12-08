@@ -1,4 +1,5 @@
 import 'package:ecom_app/screens/home_screen.dart';
+import 'package:ecom_app/screens/product_details_screen.dart';
 import 'package:ecom_app/state/product_state.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +22,8 @@ class MyApp extends StatelessWidget {
         home: HomeScreen(),
         routes: {
           HomeScreen.routeName: (context) => const HomeScreen(),
+          ProductDetailsScreen.routeName: (context) =>
+              const ProductDetailsScreen(),
         },
       ),
     );

@@ -6,12 +6,11 @@ from django.conf.urls.static import static
 
 # schema_view = get_swagger_view(title="Pastebin API")
 
-urlpatterns = []
+# urlpatterns = []
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/", include("shop.urls")),
     # re_path(r"^$", schema_view),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
