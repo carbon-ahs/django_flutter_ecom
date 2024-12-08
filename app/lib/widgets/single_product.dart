@@ -1,6 +1,8 @@
 import 'package:ecom_app/screens/product_details_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../state/product_state.dart';
 import '../util/config/env.dart';
 
 class SingleProduct extends StatelessWidget {
@@ -24,7 +26,7 @@ class SingleProduct extends StatelessWidget {
         backgroundColor: Colors.black54,
         title: Text(title),
         leading: IconButton(
-          onPressed: _onFavoritePressed,
+          onPressed: () => _onFavoritePressed(context, id),
           icon: Icon(
             isFavorite ? Icons.favorite : Icons.favorite_border,
             color: Colors.red,
@@ -42,7 +44,9 @@ class SingleProduct extends StatelessWidget {
     );
   }
 
-  void _onFavoritePressed() {}
+  void _onFavoritePressed(BuildContext context, int id) {
+    Provider.of<ProductState>(context, listen: false).favoriteToggleHandler(id);
+  }
 
   void _onTilePressed(BuildContext context, int productId) {
     Navigator.pushNamed(

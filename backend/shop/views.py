@@ -1,5 +1,5 @@
-from .serializers import *
-from .models import *
+from .serializers import ProductSerializer
+from .models import Favorite, Product
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -50,9 +50,15 @@ class FavoriteView(APIView):
                     user=user, product=product, is_favorite=True
                 )
                 favorite.save()
+            response_msg = {
+                "error": False,
+            }
 
-        except Favorite.DoesNotExist:
-            favorite = Favorite(user=request.user, product=data)
-            favorite.save()
+        except Exception as e:
+            response_msg = {
+                "error": True,
+            }
 
-        return Response("Favorite Updated")
+        print(response_msg)
+
+        return Response(response_msg)

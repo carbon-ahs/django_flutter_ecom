@@ -1,3 +1,4 @@
+import 'package:ecom_app/widgets/app_drawer.dart';
 import 'package:ecom_app/widgets/single_product.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -34,6 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
         appBar: AppBar(
           title: const Text('Home'),
         ),
+        drawer: AppDrawer(),
         body: Center(
           child: Text("Something is Wrong Try Again!"),
         ),
@@ -43,6 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
         appBar: AppBar(
           title: const Text('Home'),
         ),
+        drawer: AppDrawer(),
         body: GridView.builder(
           itemCount: products.length,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

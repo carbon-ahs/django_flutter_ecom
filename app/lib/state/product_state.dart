@@ -33,6 +33,7 @@ class ProductState with ChangeNotifier {
       }
 
       _products = temp;
+      notifyListeners();
       return true;
     } catch (e) {
       print("Error: $e");
@@ -44,7 +45,37 @@ class ProductState with ChangeNotifier {
     return [..._products];
   }
 
+  List<Product> get favoriteProducts {
+    return _products.where((product) => product.isFavorite == true).toList();
+  }
+
   Product singleProductById(int id) {
-    return _products.firstWhere((element) => element.id == id);
+    return _products.firstWhere((product) => product.id == id);
+  }
+
+  Future<void> favoriteToggleHandler(int id) async {
+    // String url = 'http://localhost:8000/api/products';
+    // String url = 'http://10.10.2.203:5800/api/products';
+    // String url = 'http://192.168.58.2:8000/api/products';
+    String url = '${Env.apiBaseUrlOffice}/api/favorite/';
+
+    try {
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'token bd05e22f6536f18338ac7205f9010d2688af901b',
+        },
+        body: jsonEncode(
+          {'id': id},
+        ),
+      );
+
+      var data = json.decode(response.body);
+      getProducts();
+      print(data);
+    } catch (e) {
+      print("Error from fav toggler: $e");
+    }
   }
 }

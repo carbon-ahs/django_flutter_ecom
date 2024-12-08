@@ -1,19 +1,45 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+from project.middleware import get_current_user
+
 
 class BaseModel(models.Model):
     is_active = models.BooleanField(default=True)
     is_deleted = models.BooleanField(default=False)
-    last_timestamp = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(
-        User, on_delete=models.SET_NULL, null=True, related_name="created_%(class)s"
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="created_%(class)s",
     )
     updated_by = models.ForeignKey(
-        User, on_delete=models.SET_NULL, null=True, related_name="updated_%(class)s"
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="updated_%(class)s",
     )
+
+    def save(self, *args, **kwargs):
+        user = get_current_user()
+        if not self.pk and not self.created_by:  # Set only for new objects
+            self.created_by = user
+        self.updated_by = user
+        super().save(*args, **kwargs)
+
+    # def delete(self, *args, **kwargs):
+    #     """Soft delete the object by setting is_deleted to True."""
+    #     self.is_deleted = True
+    #     self.save()
+
+    # def restore(self):
+    #     """Restore a soft-deleted object."""
+    #     self.is_deleted = False
+    #     self.save()
 
     class Meta:
         abstract = True
