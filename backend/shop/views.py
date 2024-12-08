@@ -25,3 +25,34 @@ class ProductView(APIView):
                 product["is_favorite"] = False
             data.append(product)
         return Response(data)
+
+
+class FavoriteView(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+
+    def post(self, request):
+        data = request.data["id"]
+
+        try:
+            user = request.user
+            product = Product.objects.get(id=data)
+            favorite_product = (
+                Favorite.objects.filter(user=user).filter(product=product).first()
+            )
+
+            if favorite_product:
+                print(favorite_product)
+                favorite_product.is_favorite = not favorite_product.is_favorite
+                favorite_product.save()
+            else:
+                favorite = Favorite.objects.create(
+                    user=user, product=product, is_favorite=True
+                )
+                favorite.save()
+
+        except Favorite.DoesNotExist:
+            favorite = Favorite(user=request.user, product=data)
+            favorite.save()
+
+        return Response("Favorite Updated")
