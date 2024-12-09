@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Category, Product
+from .models import Cart, CartProduct, Category, Product
 from django.contrib.auth import get_user_model
 from rest_framework.authtoken.models import Token
 
@@ -42,3 +42,33 @@ class UserSerializer(serializers.ModelSerializer):
         user = get_user_model().objects.create_user(**validated_data)
         Token.objects.create(user=user)
         return user
+
+
+class CartSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Cart
+        fields = [
+            "id",
+            "user",
+            "total",
+            "is_complete",
+            "created_at",
+        ]
+
+
+class CartProductSerializer(serializers.ModelSerializer):
+    # product = ProductSerializer()
+    product = ProductSerializer(many=True)
+    cart = CartSerializer()
+
+    class Meta:
+        model = CartProduct
+        fields = [
+            "id",
+            "cart",
+            "product",
+            "price",
+            "quantity",
+            "subtotal",
+        ]
+        depth = 1

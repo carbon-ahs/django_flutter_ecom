@@ -81,7 +81,9 @@ class Cart(BaseModel):
     is_complete = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"User: {self.user} - total: {self.total}"
+        return (
+            f"User: {self.user} - total: {self.total} - is_complete: {self.is_complete}"
+        )
 
 
 class CartProduct(BaseModel):

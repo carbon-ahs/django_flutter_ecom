@@ -1,6 +1,7 @@
+from calendar import c
 from yaml import serialize
-from .serializers import ProductSerializer, UserSerializer
-from .models import Favorite, Product
+from .serializers import CartProductSerializer, CartSerializer, ProductSerializer, UserSerializer
+from .models import Cart, CartProduct, Favorite, Product
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -75,3 +76,39 @@ class RegisterView(APIView):
             return Response({"error": False})
 
         return Response({"error": True})
+
+
+class CartView(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+
+    def get(self, request):
+        user = request.user
+        print(user)
+        try:
+            cart_object = Cart.objects.filter(user=user, is_complete=False)
+            data = []
+            cart_serializer = CartSerializer(cart_object, many=True)
+            print(cart_object)
+            for cart in cart_serializer.data:
+                cart_product_object = CartProduct.objects.filter(cart=cart["id"])
+                cart_product_object_serializer = CartProductSerializer(
+                    cart_product_object,
+                    many=True,
+                )
+                cart["cart_products"] = cart_product_object_serializer.data
+                data.append(cart)
+            response_msg = {
+                "error": False,
+                "data": data,
+            }
+
+        except Exception as e:
+            response_msg = {
+                "error": True,
+                "data": "No data found",
+            }
+
+        print(response_msg)
+
+        return Response(response_msg)
