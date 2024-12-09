@@ -67,7 +67,9 @@ class ProductState with ChangeNotifier {
           'Authorization': 'token bd05e22f6536f18338ac7205f9010d2688af901b',
         },
         body: jsonEncode(
-          {'id': id},
+          {
+            'id': id,
+          },
         ),
       );
 

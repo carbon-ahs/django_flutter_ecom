@@ -1,5 +1,8 @@
 import 'package:ecom_app/screens/register_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../state/user_state.dart';
 
 class LoginScreen extends StatefulWidget {
   static const routeName = '/login-screen';
@@ -84,15 +87,16 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  
   void _loginButtonPressed() async {
     var isValid = _form.currentState!.validate();
     if (!isValid) {
       return;
     }
     _form.currentState!.save();
-    print(_username);
-    print(_password);
+    Provider.of<UserState>(context, listen: false)
+        .loginNow(_username, _password);
+    // print(_username);
+    // print(_password);
     // bool istoken = await Provider.of<UserState>(
     //   context,
     //   listen: false,
@@ -117,5 +121,4 @@ class _LoginScreenState extends State<LoginScreen> {
     //       });
     // }
   }
-
 }

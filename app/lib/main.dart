@@ -4,11 +4,16 @@ import 'package:ecom_app/screens/product_details_screen.dart';
 import 'package:ecom_app/screens/register_screen.dart';
 import 'package:ecom_app/state/product_state.dart';
 import 'package:flutter/material.dart';
+import 'package:localstorage/localstorage.dart';
 import 'package:provider/provider.dart';
 
 import 'screens/favorite_screen.dart';
+import 'service_locator.dart';
+import 'state/user_state.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await initializeDependencies();
   runApp(MyApp());
 }
 
@@ -21,6 +26,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => ProductState()),
+        ChangeNotifierProvider(create: (context) => UserState()),
       ],
       child: MaterialApp(
         home: LoginScreen(),

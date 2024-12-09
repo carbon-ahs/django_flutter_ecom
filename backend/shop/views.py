@@ -1,9 +1,12 @@
-from .serializers import ProductSerializer
+from yaml import serialize
+from .serializers import ProductSerializer, UserSerializer
 from .models import Favorite, Product
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
+
+from shop import serializers
 
 
 class ProductView(APIView):
@@ -62,3 +65,13 @@ class FavoriteView(APIView):
         print(response_msg)
 
         return Response(response_msg)
+
+
+class RegisterView(APIView):
+    def post(self, request):
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"error": False})
+
+        return Response({"error": True})
