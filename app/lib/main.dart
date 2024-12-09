@@ -2,6 +2,7 @@ import 'package:ecom_app/screens/home_screen.dart';
 import 'package:ecom_app/screens/login_screen.dart';
 import 'package:ecom_app/screens/product_details_screen.dart';
 import 'package:ecom_app/screens/register_screen.dart';
+import 'package:ecom_app/state/cart_state.dart';
 import 'package:ecom_app/state/product_state.dart';
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => ProductState()),
         ChangeNotifierProvider(create: (context) => UserState()),
+        ChangeNotifierProvider(create: (context) => CartState()),
       ],
       child: MaterialApp(
         routes: {
