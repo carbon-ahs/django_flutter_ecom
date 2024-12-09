@@ -19,7 +19,7 @@ class ProductState with ChangeNotifier {
     String url = '${Env.apiBaseUrlOffice}/api/products';
     var token = prefs.getString('token');
     try {
-      print(url);
+      // print(url);
       final response = await http.get(
         Uri.parse(url),
         headers: {
@@ -28,7 +28,7 @@ class ProductState with ChangeNotifier {
       );
 
       var data = json.decode(response.body) as List;
-      print(data);
+      // print(data);
       List<Product> temp = [];
 
       for (var element in data) {
@@ -79,7 +79,7 @@ class ProductState with ChangeNotifier {
 
       var data = json.decode(response.body);
       getProducts();
-      print(data);
+      // print(data);
     } catch (e) {
       print("Error from fav toggler: $e");
     }

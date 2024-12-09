@@ -1,4 +1,9 @@
 
+## Timestamp
+
+- 9/12/2024 : 4:43:41
+
+---
 ## vs code terminal command 
 ---
 

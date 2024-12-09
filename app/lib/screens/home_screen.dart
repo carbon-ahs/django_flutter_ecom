@@ -3,6 +3,7 @@ import 'package:ecom_app/widgets/single_product.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../state/cart_state.dart';
 import '../state/product_state.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -20,6 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void didChangeDependencies() async {
     if (_init) {
+      Provider.of<CartState>(context).getCart();
       _isLoading = await Provider.of<ProductState>(context).getProducts();
       setState(() {});
     }
