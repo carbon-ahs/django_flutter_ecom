@@ -6,6 +6,7 @@ import 'package:ecom_app/state/product_state.dart';
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'screens/favorite_screen.dart';
 import 'service_locator.dart';
@@ -20,16 +21,16 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    SharedPreferences prefs = sl<SharedPreferences>();
+    var token = prefs.getString('token');
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => ProductState()),
         ChangeNotifierProvider(create: (context) => UserState()),
       ],
       child: MaterialApp(
-        home: LoginScreen(),
         routes: {
           HomeScreen.routeName: (context) => const HomeScreen(),
           ProductDetailsScreen.routeName: (context) =>
@@ -38,6 +39,8 @@ class MyApp extends StatelessWidget {
           LoginScreen.routeName: (context) => const LoginScreen(),
           RegisterScreen.routeName: (context) => const RegisterScreen(),
         },
+        // home: LoginScreen(),
+        home: token != null ? HomeScreen() : LoginScreen(),
       ),
     );
   }

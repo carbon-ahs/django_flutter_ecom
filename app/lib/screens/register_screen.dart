@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../state/user_state.dart';
 import 'login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -118,28 +120,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _form.currentState!.save();
     print(_username);
     print(_password);
-    // bool istoken = await Provider.of<UserState>(
-    //   context,
-    //   listen: false,
-    // ).loginNow(_username, _password);
-    // if (istoken) {
-    //   Navigator.of(context).pushReplacementNamed(HomeScreens.routeName);
-    // } else {
-    //   showDialog(
-    //       context: context,
-    //       builder: (context) {
-    //         return AlertDialog(
-    //           title: Text("Something is wrong.Try Again"),
-    //           actions: [
-    //             RaisedButton(
-    //               onPressed: () {
-    //                 Navigator.of(context).pop();
-    //               },
-    //               child: Text("OK"),
-    //             )
-    //           ],
-    //         );
-    //       });
-    // }
+    bool isRegistered = await Provider.of<UserState>(
+      context,
+      listen: false,
+    ).registerNow(_username, _password);
+    if (isRegistered) {
+      Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
+    } else {
+      SnackBar snackBar = SnackBar(
+        content: Text("Something is wrong.Try Again"),
+        // action: SnackBarAction(
+        //   label: "OK",
+        //   onPressed: () {},
+        // ),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
   }
 }

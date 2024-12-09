@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../service_locator.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
@@ -16,7 +19,8 @@ class AppDrawer extends StatelessWidget {
           leading: const Icon(Icons.shop),
           title: const Text('Shop'),
           onTap: () {
-            Navigator.of(context).pushReplacementNamed('/');
+            Navigator.of(context).pop();
+            Navigator.of(context).pushNamed('/home-screen');
           },
         ),
         const Divider(),
@@ -32,10 +36,25 @@ class AppDrawer extends StatelessWidget {
           leading: const Icon(Icons.favorite),
           title: const Text('Favorite'),
           onTap: () {
-            Navigator.of(context).pushReplacementNamed('/favorite-screen');
+            Navigator.of(context).pop();
+            Navigator.of(context).pushNamed('/favorite-screen');
+          },
+        ),
+        Spacer(),
+        ListTile(
+          leading: const Icon(Icons.logout),
+          title: const Text('Logout'),
+          onTap: () {
+            _logoutNow(context);
           },
         ),
       ]),
     );
+  }
+
+  void _logoutNow(BuildContext context) {
+    SharedPreferences prefs = sl<SharedPreferences>();
+    prefs.remove('token');
+    Navigator.of(context).pushReplacementNamed('/login-screen');
   }
 }

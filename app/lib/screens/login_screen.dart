@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../state/user_state.dart';
+import 'home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   static const routeName = '/login-screen';
@@ -56,6 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   onSaved: (v) {
                     _password = v!;
+                    print(_password);
                   },
                   obscureText: true,
                 ),
@@ -93,32 +95,21 @@ class _LoginScreenState extends State<LoginScreen> {
       return;
     }
     _form.currentState!.save();
-    Provider.of<UserState>(context, listen: false)
+    // Provider.of<UserState>(context, listen: false)
+    //     .loginNow(_username, _password);
+    bool istoken = await Provider.of<UserState>(context, listen: false)
         .loginNow(_username, _password);
-    // print(_username);
-    // print(_password);
-    // bool istoken = await Provider.of<UserState>(
-    //   context,
-    //   listen: false,
-    // ).loginNow(_username, _password);
-    // if (istoken) {
-    //   Navigator.of(context).pushReplacementNamed(HomeScreens.routeName);
-    // } else {
-    //   showDialog(
-    //       context: context,
-    //       builder: (context) {
-    //         return AlertDialog(
-    //           title: Text("Something is wrong.Try Again"),
-    //           actions: [
-    //             RaisedButton(
-    //               onPressed: () {
-    //                 Navigator.of(context).pop();
-    //               },
-    //               child: Text("OK"),
-    //             )
-    //           ],
-    //         );
-    //       });
-    // }
+    if (istoken) {
+      Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+    } else {
+      SnackBar snackBar = SnackBar(
+        content: Text("Something is wrong.Try Again"),
+        // action: SnackBarAction(
+        //   label: "OK",
+        //   onPressed: () {},
+        // ),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
   }
 }

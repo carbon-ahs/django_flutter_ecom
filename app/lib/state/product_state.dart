@@ -2,10 +2,14 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import '../models/product_model.dart';
+import '../service_locator.dart';
 import '../util/config/env.dart';
 
 class ProductState with ChangeNotifier {
+  SharedPreferences prefs = sl<SharedPreferences>();
+
   List<Product> _products = [];
 
   Future<bool> getProducts() async {
@@ -13,13 +17,13 @@ class ProductState with ChangeNotifier {
     // String url = 'http://10.10.2.203:5800/api/products';
     // String url = 'http://192.168.58.2:8000/api/products';
     String url = '${Env.apiBaseUrlOffice}/api/products';
-
+    var token = prefs.getString('token');
     try {
       print(url);
       final response = await http.get(
         Uri.parse(url),
         headers: {
-          'Authorization': 'token bd05e22f6536f18338ac7205f9010d2688af901b',
+          'Authorization': 'token $token',
         },
       );
 
