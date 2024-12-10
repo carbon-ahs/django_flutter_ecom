@@ -26,9 +26,9 @@ class AppDrawer extends StatelessWidget {
         const Divider(),
         ListTile(
           leading: const Icon(Icons.payment),
-          title: const Text('Orders'),
+          title: const Text('Old Orders'),
           onTap: () {
-            // Navigator.of(context).pushReplacementNamed('/orders');
+            Navigator.of(context).pushNamed('/order-history-screen');
           },
         ),
         const Divider(),

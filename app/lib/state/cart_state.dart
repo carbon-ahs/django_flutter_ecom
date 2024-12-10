@@ -9,9 +9,8 @@ import '../util/config/env.dart';
 
 class CartState with ChangeNotifier {
   SharedPreferences prefs = sl<SharedPreferences>();
-
-  Future<void> getCart() async {
-    CartModel _cart;
+  late CartModel _cartModel;
+  Future<void> getCartModel() async {
     var token = prefs.getString('token');
     String url = '${Env.apiBaseUrlOffice}/api/cart';
 
@@ -25,7 +24,7 @@ class CartState with ChangeNotifier {
       );
 
       var data = json.decode(response.body) as Map;
-      print(data);
+      print(response);
       // print(data["data"]);
       List<CartModel> temp = [];
 
@@ -35,10 +34,14 @@ class CartState with ChangeNotifier {
           temp.add(cart);
         });
       }
-      _cart = temp[0];
+      _cartModel = temp[0];
       notifyListeners();
     } catch (e) {
       print("Error getCart: $e");
     }
+  }
+
+  CartModel get cartModel {
+    return _cartModel;
   }
 }

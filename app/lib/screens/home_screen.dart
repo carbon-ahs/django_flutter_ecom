@@ -21,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void didChangeDependencies() async {
     if (_init) {
-      Provider.of<CartState>(context).getCart();
+      Provider.of<CartState>(context).getCartModel();
       _isLoading = await Provider.of<ProductState>(context).getProducts();
       setState(() {});
     }
@@ -46,6 +46,12 @@ class _HomeScreenState extends State<HomeScreen> {
       return Scaffold(
         appBar: AppBar(
           title: const Text('Home'),
+          actions: [
+            IconButton(
+              onPressed: () => Navigator.of(context).pushNamed('/cart-screen'),
+              icon: const Icon(Icons.shopping_cart),
+            ),
+          ],
         ),
         drawer: AppDrawer(),
         body: GridView.builder(
