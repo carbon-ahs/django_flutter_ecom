@@ -79,6 +79,21 @@ class CartScreen extends StatelessWidget {
                 ),
               ),
               Divider(thickness: 2),
+              Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      style: ButtonStyle(
+                        backgroundColor: WidgetStateProperty.all(Colors.green),
+                      ),
+                      child: const Text(
+                        "Checkout",
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
