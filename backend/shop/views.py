@@ -1,7 +1,13 @@
 from calendar import c
 from yaml import serialize
-from .serializers import CartProductSerializer, CartSerializer, ProductSerializer, UserSerializer
-from .models import Cart, CartProduct, Favorite, Product
+from .serializers import (
+    CartProductSerializer,
+    CartSerializer,
+    OrderSerializer,
+    ProductSerializer,
+    UserSerializer,
+)
+from .models import Cart, CartProduct, Favorite, Order, Product
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -110,5 +116,30 @@ class CartView(APIView):
             }
 
         print(response_msg)
+
+        return Response(response_msg)
+
+
+class OrderView(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+
+    def get(self, request):
+        user = request.user
+        print(user)
+        try:
+            query = Order.objects.filter(cart__user=request.user)
+            print(query)
+            serializer = OrderSerializer(query, many=True)
+            response_msg = {
+                "error": False,
+                "data": serializer.data,
+            }
+
+        except Exception as e:
+            response_msg = {
+                "error": True,
+                "data": "No data found",
+            }
 
         return Response(response_msg)

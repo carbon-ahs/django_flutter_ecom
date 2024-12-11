@@ -7,7 +7,6 @@ import 'package:ecom_app/screens/register_screen.dart';
 import 'package:ecom_app/state/cart_state.dart';
 import 'package:ecom_app/state/product_state.dart';
 import 'package:flutter/material.dart';
-import 'package:localstorage/localstorage.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

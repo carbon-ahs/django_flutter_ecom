@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Cart, CartProduct, Category, Product
+from .models import Cart, CartProduct, Category, Order, Product
 from django.contrib.auth import get_user_model
 from rest_framework.authtoken.models import Token
 
@@ -72,3 +72,18 @@ class CartProductSerializer(serializers.ModelSerializer):
             "subtotal",
         ]
         depth = 1
+
+
+class OrderSerializer(serializers.ModelSerializer):
+    cart = CartSerializer()
+
+    class Meta:
+        model = Order
+        fields = [
+            "id",
+            "cart",
+            "email",
+            "phone",
+            "address",
+            "created_at",
+        ]
