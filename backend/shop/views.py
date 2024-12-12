@@ -143,3 +143,64 @@ class OrderView(APIView):
             }
 
         return Response(response_msg)
+
+
+class AddToCartView(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+
+    def post(self, request):
+        product_id = request.data["id"]
+
+        user = request.user
+        try:
+            product = Product.objects.get(id=product_id)
+            print("Product: ", product)
+            cart = Cart.objects.filter(user=user, is_complete=False).first()
+            print("Cart: ", cart)
+
+            if not cart:
+                cart = Cart.objects.create(
+                    user=user,
+                    total=0,
+                    is_complete=False,
+                )
+                print("Cart created: ", cart)
+            cart_product = CartProduct.objects.filter(
+                product__id=product_id, cart=cart
+            ).first()
+
+            if not cart_product:
+                cart_product = CartProduct.objects.create(
+                    cart=cart,
+                    price=product.selling_price,
+                    quantity=1,
+                    subtotal=product.selling_price,
+                )
+                cart_product.product.add(product)
+                print("No product in cart, product added: ", cart_product)
+                cart_product.save()
+                cart.total += product.selling_price
+                cart.save()
+            else:
+                print("Product already in cart, quantity updated: ", cart_product)
+                cart_product.quantity += 1
+
+                cart_product.subtotal += product.selling_price
+                cart_product.save()
+                cart.total += product.selling_price
+                cart.save()
+
+            response_msg = {
+                "error": False,
+                "message": "Product added to cart",
+            }
+
+        except Exception as e:
+            print(e)
+            response_msg = {
+                "error": True,
+                "message": "Product not added to cart, Something went wrong!",
+            }
+
+        return Response(response_msg)
