@@ -22,6 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void didChangeDependencies() async {
     if (_init) {
       Provider.of<CartState>(context).getCartModel();
+      Provider.of<CartState>(context).getOrders();
       _isLoading = await Provider.of<ProductState>(context).getProducts();
       setState(() {});
     }
