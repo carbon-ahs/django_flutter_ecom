@@ -10,7 +10,7 @@ class UserState with ChangeNotifier {
   SharedPreferences prefs = sl<SharedPreferences>();
 
   Future<bool> loginNow(String userName, String password) async {
-    String url = '${Env.apiBaseUrlOffice}/api/login/';
+    String url = '${Env.apiBaseUrl}/api/login/';
 
     try {
       http.Response response = await http.post(
@@ -30,7 +30,7 @@ class UserState with ChangeNotifier {
         print(prefs.getString('token'));
         return true;
       }
-
+      print('ghfhtgv');
       return false;
     } catch (e) {
       print("e loginNow");

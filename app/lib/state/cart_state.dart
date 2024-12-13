@@ -14,7 +14,7 @@ class CartState with ChangeNotifier {
   List<Order> _orders = [];
   Future<void> getCartModel() async {
     var token = prefs.getString('token');
-    String url = '${Env.apiBaseUrlOffice}/api/cart';
+    String url = '${Env.apiBaseUrl}/api/cart';
 
     try {
       print(url);
