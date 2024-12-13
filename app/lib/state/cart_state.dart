@@ -45,7 +45,7 @@ class CartState with ChangeNotifier {
 
   Future<void> getOrders() async {
     var token = prefs.getString('token');
-    String url = '${Env.apiBaseUrlOffice}/api/order';
+    String url = '${Env.apiBaseUrl}/api/order';
 
     try {
       final response = await http.get(

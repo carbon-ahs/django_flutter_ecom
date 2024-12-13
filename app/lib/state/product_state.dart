@@ -16,7 +16,7 @@ class ProductState with ChangeNotifier {
     // String url = 'http://localhost:8000/api/products';
     // String url = 'http://10.10.2.203:5800/api/products';
     // String url = 'http://192.168.58.2:8000/api/products';
-    String url = '${Env.apiBaseUrlOffice}/api/products';
+    String url = '${Env.apiBaseUrl}/api/products';
     var token = prefs.getString('token');
     try {
       // print(url);
@@ -77,7 +77,7 @@ class ProductState with ChangeNotifier {
         ),
       );
 
-      var data = json.decode(response.body);
+      // var data = json.decode(response.body);
       getProducts();
       // print(data);
     } catch (e) {

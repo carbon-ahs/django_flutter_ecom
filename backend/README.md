@@ -1,7 +1,7 @@
-# Django Boilerplate Project
+# Django ECommerce Project.
 
 ## Introduction
-This is a boilerplate Django project that serves as a foundation for building web applications using Django, a high-level Python web framework. It is pre-configured with some basic settings, file structure, and dependencies to help you kickstart your project development.
+Its a E Commerce site.
 
 ## Features
 - Django version: 4.0
@@ -17,8 +17,8 @@ This is a boilerplate Django project that serves as a foundation for building we
 - README file to help you get started.
 
 ## Setup Instructions
-1. Clone this repository: `git clone https://github.com/carbon-ahs/django_placeholderProject.git`
-2. Navigate to the project directory: `cd django_placeholderProject`
+1. Clone this repository
+2. Navigate to the project directory: `cd backend`
 3. Create a virtual environment: `python -m venv .venv`
 4. Activate the virtual environment:
    - On Windows: `.\.venv\Scripts\activate`
@@ -27,7 +27,18 @@ This is a boilerplate Django project that serves as a foundation for building we
 6. Make migrations: `python manage.py makemigrations`
 7. Apply migrations: `python manage.py migrate`
 8. Create a superuser: `python manage.py createsuperuser`
-9. Run the development server: `python manage.py runserver`
+9. Run the development server: `python manage.py runserver` for local testing
+10. If you want to run with any forntend client `python manage.py runserver 0.0.0.0:8000` 
+    then base URL will be <your_local_ip>:8000
+11. To find local ip, go to cmd and `ipconfig` 
+    ```
+    Wireless LAN adapter Wi-Fi:
+    Connection-specific DNS Suffix  . :
+    Link-local IPv6 Address . . . . . : fe80::ac0e:1202:3c22:afca%6
+    IPv4 Address. . . . . . . . . . . : 192.168.31.25 # this should be your local ip
+    Subnet Mask . . . . . . . . . . . : 255.255.255.0
+    Default Gateway . . . . . . . . . : 192.168.31.1```
+  
 
 ## Acknowledgments
 - [Django](https://www.djangoproject.com/) - The web framework for perfectionists with deadlines.

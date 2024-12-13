@@ -4,7 +4,6 @@ import 'package:ecom_app/service_locator.dart';
 import 'package:ecom_app/util/config/env.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:localstorage/localstorage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserState with ChangeNotifier {
@@ -41,7 +40,7 @@ class UserState with ChangeNotifier {
   }
 
   Future<bool> registerNow(String userName, String password) async {
-    String url = '${Env.apiBaseUrlOffice}/api/register/';
+    String url = '${Env.apiBaseUrl}/api/register/';
 
     try {
       http.Response response = await http.post(
