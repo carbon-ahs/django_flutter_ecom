@@ -1,6 +1,4 @@
-from calendar import c
 from sys import exception
-from yaml import serialize
 from .serializers import (
     CartProductSerializer,
     CartSerializer,
@@ -13,8 +11,6 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
-
-from shop import serializers
 
 
 class ProductView(APIView):
@@ -68,6 +64,7 @@ class FavoriteView(APIView):
         except Exception as e:
             response_msg = {
                 "error": True,
+                "data": "No data found" + str(e),
             }
 
         print(response_msg)
@@ -113,7 +110,7 @@ class CartView(APIView):
         except Exception as e:
             response_msg = {
                 "error": True,
-                "data": "No data found",
+                "data": "No data found" + str(e),
             }
 
         print(response_msg)
@@ -140,7 +137,7 @@ class OrderView(APIView):
         except Exception as e:
             response_msg = {
                 "error": True,
-                "data": "No data found",
+                "data": "No data found" + str(e),
             }
 
         return Response(response_msg)
