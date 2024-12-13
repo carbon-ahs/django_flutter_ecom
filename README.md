@@ -5,6 +5,6 @@
 ## Getting Started
 
 
-[Backend](../backend/README.md).
+[Backend](https://github.com/carbon-ahs/django_flutter_ecom/blob/master/backend/README.md).
 
-[Flutter](../app/README.md).
+[Flutter](https://github.com/carbon-ahs/django_flutter_ecom/blob/master/app/README.md).
