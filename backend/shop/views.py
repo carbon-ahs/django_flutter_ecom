@@ -1,4 +1,5 @@
 from calendar import c
+from sys import exception
 from yaml import serialize
 from .serializers import (
     CartProductSerializer,
@@ -204,3 +205,170 @@ class AddToCartView(APIView):
             }
 
         return Response(response_msg)
+
+
+class IncreaseCartProductQuantityView(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+
+    def post(self, request):
+        product_id = request.data["id"]
+
+        user = request.user
+        try:
+            product = Product.objects.get(id=product_id)
+            print("Product: ", product)
+            cart = Cart.objects.filter(user=user, is_complete=False).first()
+            print("Cart: ", cart)
+
+            if not cart:
+                print("No Cart.", cart)
+
+            cart_product = CartProduct.objects.filter(
+                product__id=product_id, cart=cart
+            ).first()
+
+            if not cart_product:
+                print("No product in Cart.", cart)
+
+            else:
+                print("Product already in cart, quantity updated: ", cart_product)
+                cart_product.quantity += 1
+
+                cart_product.subtotal += product.selling_price
+                cart_product.save()
+                cart.total += product.selling_price
+                cart.save()
+
+            response_msg = {
+                "error": False,
+                "message": "Product quantity increased to cart",
+            }
+
+        except Exception as e:
+            print(e)
+            response_msg = {
+                "error": True,
+                "message": "Something went wrong!",
+            }
+
+        return Response(response_msg)
+
+
+class DecreaseCartProductQuantityView(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+
+    def post(self, request):
+        product_id = request.data["id"]
+
+        user = request.user
+        try:
+            product = Product.objects.get(id=product_id)
+            print("Product: ", product)
+            cart = Cart.objects.filter(user=user, is_complete=False).first()
+            print("Cart: ", cart)
+
+            if not cart:
+                print("No Cart.", cart)
+                exception("No Cart.")
+
+            cart_product = CartProduct.objects.filter(
+                product__id=product_id, cart=cart
+            ).first()
+
+            if not cart_product:
+                print("No product in Cart.", cart)
+
+            else:
+                print("Product in cart, quantity decreased: ", cart_product)
+                cart_product.quantity -= 1
+
+                cart_product.subtotal -= product.selling_price
+                cart_product.save()
+                cart.total -= product.selling_price
+                cart.save()
+
+            response_msg = {
+                "error": False,
+                "message": "Product quantity decreased to cart",
+            }
+
+        except Exception as e:
+            print(e)
+            response_msg = {
+                "error": True,
+                "message": "Something went wrong! " + str(e),
+            }
+
+        return Response(response_msg)
+
+
+class DeleteProductFromCartView(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+
+    def post(self, request):
+        product_id = request.data["id"]
+
+        user = request.user
+        try:
+            product = Product.objects.get(id=product_id)
+            print("Product: ", product)
+            cart = Cart.objects.filter(user=user, is_complete=False).first()
+            print("Cart: ", cart)
+
+            if not cart:
+                print("No Cart.", cart)
+                exception("No Cart.")
+
+            cart_product = CartProduct.objects.filter(
+                product__id=product_id, cart=cart
+            ).first()
+
+            if not cart_product:
+                print("No product in Cart.", cart)
+                exception("No product in Cart.")
+
+            else:
+                print("Product in cart found, deleted ", cart_product)
+                cart.total -= cart_product.subtotal
+                cart_product.delete()
+
+            response_msg = {
+                "error": False,
+                "message": "Product deleted from cart",
+            }
+
+        except Exception as e:
+            print(e)
+            response_msg = {
+                "error": True,
+                "message": "Something went wrong! " + str(e),
+            }
+
+        return Response(response_msg)
+
+
+class CheckoutView(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+
+    def post(self, request):
+        pass
+
+
+class CompleteOrderView(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+
+    def post(self, request):
+        pass
+
+
+class CancelOrderView(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+
+    def post(self, request):
+        pass
